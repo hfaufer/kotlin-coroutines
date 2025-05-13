@@ -1,0 +1,28 @@
+initscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2" }
+    }
+    dependencies { classpath("org.openrewrite:plugin:6.21.1") }
+}
+rootProject {
+    plugins.apply(org.openrewrite.gradle.RewritePlugin)
+    dependencies {
+        rewrite("org.openrewrite:rewrite-kotlin:1.19.6")
+    }
+    rewrite {
+        activeRecipe("org.openrewrite.kotlin.cleanup.RemoveTrailingComma")
+        activeRecipe("org.openrewrite.kotlin.cleanup.UnnecessaryTypeParentheses")
+        activeRecipe("org.openrewrite.kotlin.cleanup.RemoveTrailingSemicolon")
+        activeRecipe("org.openrewrite.kotlin.cleanup.ReplaceCharToIntWithCode")
+        activeRecipe("org.openrewrite.kotlin.cleanup.EqualsMethodUsage")
+        activeRecipe("org.openrewrite.kotlin.cleanup.ImplicitParameterInLambda")
+        exportDatatables = true
+    }
+    afterEvaluate {
+        if (repositories.isEmpty()) {
+            repositories {
+                mavenCentral()
+            }
+        }
+    }
+}

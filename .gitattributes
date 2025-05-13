@@ -1,0 +1,15 @@
+#
+# https://help.github.com/articles/dealing-with-line-endings/
+#
+# Set a resaonable default, just in case the local configuration is broken.
+*               auto
+# Linux start script should use lf
+/gradlew        text eol=lf
+*.sh            text eol=lf
+
+# These are Windows script files and should use crlf
+*.bat           text eol=crlf
+
+# Binary files should be left untouched
+*.jar           binary
+*.dat           binary

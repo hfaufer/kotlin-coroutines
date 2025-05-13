@@ -1,0 +1,17 @@
+= Kotlin Coroutines
+:toc:
+:sectnums:
+
+== Coroutines
+* Coroutines can be used for concurrent and parallel execution of tasks alike.
+* Like virtual threads, coroutines are lightweight and are ideal for short-lived tasks.
+** They should not be pooled but created and destroyed as needed.
+* Coroutines can suspend execution without blocking the carrier thread.
+* Coroutines form a hierarchical tree structure that supports cancellation and error handling.
+* Best practices:
+** use Dispatcher.VT
+
+== References
+* https://kotl.in/api-guide
+* https://kotl.in/grants
+
