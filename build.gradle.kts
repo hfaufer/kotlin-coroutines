@@ -18,9 +18,7 @@ dependencies {
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.jupiter.platform.launcher)
 
-    // These dependencies are used by the application.
-    implementation(libs.arrow.core)
-    implementation(libs.arrow.functions)
+    // The application uses these dependencies.
     implementation(libs.jackson.module.kotlin)
     implementation(libs.kotlinx.coroutines.core)
 }
@@ -55,4 +53,3 @@ val compileKotlin: KotlinCompile by tasks
 compileKotlin.compilerOptions {
     freeCompilerArgs.set(listOf("-Xwhen-guards"))
 }
-

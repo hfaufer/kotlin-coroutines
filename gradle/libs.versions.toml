@@ -2,17 +2,12 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-arrow = "2.0.1"
-guava = "33.2.1-jre"
 jackson = "2.19.0"
 junit-jupiter = "5.10.3"
 junit-jupiter-platform = "1.10.3"
-kotlinx-coroutines = "1.10.1"
+kotlinx-coroutines = "1.10.2"
 
 [libraries]
-arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrow" }
-arrow-functions = { module = "io.arrow-kt:arrow-functions", version.ref = "arrow" }
-guava = { module = "com.google.guava:guava", version.ref = "guava" }
 jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 junit-jupiter-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-jupiter-platform" }
