@@ -14,7 +14,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.List;
 
-public class GetUsers {
+public class JsonPlaceHolderClient {
 
     public static void main(final String... args) throws Exception {
         final List<User> users = getUsers();
