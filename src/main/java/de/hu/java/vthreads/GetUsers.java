@@ -22,7 +22,7 @@ public class GetUsers {
     }
 
     public static List<User> getUsers() throws IOException, InterruptedException {
-        try (var client = HttpClient.newHttpClient()) {
+        try (var client = newHttp2Client()) {
             final var request = HttpRequest.newBuilder()
                     .uri(URI.create("https://jsonplaceholder.typicode.com/users"))
                     .timeout(Duration.ofMinutes(1))
@@ -34,6 +34,14 @@ public class GetUsers {
             System.out.println(response.statusCode());
             return deserializeUsers(response.body());
         }
+    }
+
+    private static HttpClient newHttp2Client() {
+        return HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .followRedirects(HttpClient.Redirect.NEVER)
+                .connectTimeout(Duration.ofSeconds(20))
+                .build();
     }
 
     private static List<User> deserializeUsers(final String json) throws JsonProcessingException {
