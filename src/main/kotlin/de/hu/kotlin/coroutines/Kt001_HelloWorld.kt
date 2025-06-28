@@ -11,7 +11,7 @@ import kotlinx.coroutines.runBlocking
 // runBlocking { ... } finished their execution.
 fun main() = runBlocking() {
     // launch is another coroutine builder. It launches a new coroutine that executes the
-    // code in the body in parallel with the main thread.
+    // code in the body concurrently to the main thread.
     // That's why Hello will be printed first.
     launch {
         printWorld()
