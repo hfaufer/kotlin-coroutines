@@ -13,10 +13,11 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class JsonPlaceHolderClient {
-
-    public static final URI BASE_URL = URI.create("https://jsonplaceholder.typicode.com");
+    private static final URI BASE_URL = URI.create("https://jsonplaceholder.typicode.com");
+    private static final Logger logger = Logger.getLogger(JsonPlaceHolderClient.class.getName());
 
     public static void main(final String... args) throws Exception {
         final List<User> users = new JsonPlaceHolderClient().getUsers();
@@ -32,8 +33,8 @@ public class JsonPlaceHolderClient {
                     .GET()
                     .build();
             final HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-            System.out.println(response.body());
-            System.out.println(response.statusCode());
+            logger.fine(() -> "Response: " + response.body());
+            logger.fine(() -> "Status code: " + response.statusCode());
             return deserializeUsers(response.body());
         }
     }
