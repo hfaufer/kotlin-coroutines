@@ -16,15 +16,17 @@ import java.util.List;
 
 public class JsonPlaceHolderClient {
 
+    public static final URI BASE_URL = URI.create("https://jsonplaceholder.typicode.com");
+
     public static void main(final String... args) throws Exception {
-        final List<User> users = getUsers();
+        final List<User> users = new JsonPlaceHolderClient().getUsers();
         System.out.println(users);
     }
 
-    public static List<User> getUsers() throws IOException, InterruptedException {
+    public List<User> getUsers() throws IOException, InterruptedException {
         try (var client = newHttp2Client()) {
             final var request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://jsonplaceholder.typicode.com/users"))
+                    .uri(BASE_URL.resolve("/users"))
                     .timeout(Duration.ofMinutes(1))
                     .header("Accept", "application/json")
                     .GET()
