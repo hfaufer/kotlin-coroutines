@@ -31,14 +31,15 @@ java {
 }
 
 application {
+    applicationDefaultJvmArgs = listOf("-Djava.util.logging.config.file=config/logging.properties")
     // Define the main class for the application.
     // Use the following command line to choose which class to launch:
     //   ./gradlew run -Plaunch=Kt020_variables
     // See https://discuss.gradle.org/t/can-i-specify-which-main-method-to-run-from-the-command-line/44825
     if (hasProperty("launch")) {
-        mainClass.set("${property("launch")}Kt")
+        mainClass.set("de.hu.kotlin.coroutines.${property("launch")}Kt")
     } else {
-        mainClass = "Kt010_HelloCoroutineKt"
+        mainClass = "de.hu.kotlin.coroutines.Kt010_HelloCoroutineKt"
     }
 }
 
