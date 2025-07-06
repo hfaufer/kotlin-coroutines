@@ -11,29 +11,29 @@ import kotlin.time.Duration.Companion.seconds
 private val ASYNC_TASK_DELAY: Duration = 3.seconds
 
 fun main(): Unit = runBlocking {
-    println("Starting computation ...")
+    Log.info("Starting computation ...")
     val elapsedMillis = measureTimeMillis {
         // Deferred is the equivalent of Future in Java.
         val one: Deferred<Int> = async { doSomethingUsefulOne() }
         val two: Deferred<Int> = async { doSomethingUsefulTwo() }
-        println("Created async tasks.")
-        println("Waiting for the results ...")
-        val answer = one.await().also { println("One returned $it") } +
-                two.await().also { println("Two returned $it") }
-        println("The answer is $answer")
+        Log.info("Created async tasks.")
+        Log.info("Waiting for the results ...")
+        val answer = one.await().also { Log.info("One returned $it") } +
+                two.await().also { Log.info("Two returned $it") }
+        Log.info("The answer is $answer")
     }
-    println("Completed in $elapsedMillis ms")
+    Log.info("Completed in $elapsedMillis ms")
 }
 
 
 suspend fun doSomethingUsefulOne(): Int {
-    println("Thinking ...")
+    Log.info("Thinking ...")
     delay(ASYNC_TASK_DELAY) // Pretend we are doing something useful here.
     return 13
 }
 
 suspend fun doSomethingUsefulTwo(): Int {
-    println("Computing ...")
+    Log.info("Computing ...")
     delay(ASYNC_TASK_DELAY) // Pretend we are doing something useful here, too.
     return 29
 }
