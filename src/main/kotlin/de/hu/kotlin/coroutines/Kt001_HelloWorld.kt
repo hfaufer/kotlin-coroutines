@@ -9,14 +9,20 @@ import kotlinx.coroutines.runBlocking
 // As the name of runBlocking implies, the thread that runs it (in this case — the main
 // thread) gets blocked for the duration of the call, until all the coroutines inside
 // runBlocking { ... } finished their execution.
-fun main() = runBlocking() {
-    // launch is another coroutine builder. It launches a new coroutine that executes the
-    // code in the body concurrently to the main thread.
-    // That's why Hello will be printed first.
-    launch {
-        printWorld()
+fun main() {
+    println("Kt001_HelloWorld")
+    Log.info("BEGIN main")
+    runBlocking() {
+        // launch is another coroutine builder. It launches a new coroutine that executes the code
+        // in the body concurrently to the enclosing coroutine.
+        // That's why Hello will be printed first.
+        // It also uses the main thread.
+        launch {
+            printWorld()
+        }
+        Log.info("Hello,")
     }
-    println("Hello,")
+    Log.info("END main")
 }
 
 // Suspending functions can be used inside coroutines just like regular functions, but their
@@ -27,5 +33,5 @@ private suspend fun printWorld() {
     // Suspending a coroutine does not block the carrier thread, but allows other coroutines
     // to run and use the carrier thread for their code.
     delay(1234L)
-    println("World!")
+    Log.info("World!")
 }
