@@ -10,6 +10,8 @@ import kotlin.time.Duration.Companion.seconds
 
 private val ASYNC_TASK_DELAY: Duration = 3.seconds
 
+// Demonstrates that runBlocking with the default dispatcher, runs all jobs in
+// the same thread and thereby not in parallel.
 fun main(): Unit = runBlocking {
     Log.info("Starting computation ...")
     val elapsedMillis = measureTimeMillis {
@@ -18,8 +20,8 @@ fun main(): Unit = runBlocking {
         val two: Deferred<Int> = async { doSomethingUsefulTwo() }
         Log.info("Created async tasks.")
         Log.info("Waiting for the results ...")
-        val answer = one.await().also { Log.info("One returned $it") } +
-                two.await().also { Log.info("Two returned $it") }
+        val answer = one.await().also { Log.info("Job one returned $it") } +
+                two.await().also { Log.info("Job two returned $it") }
         Log.info("The answer is $answer")
     }
     Log.info("Completed in $elapsedMillis ms")
