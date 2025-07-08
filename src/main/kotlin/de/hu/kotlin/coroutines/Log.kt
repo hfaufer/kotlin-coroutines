@@ -22,5 +22,8 @@ internal object Log {
         return this
     }
 
-    private fun threadName() = Thread.currentThread().name
+    private fun threadName(): String? {
+        val currentThread = Thread.currentThread()
+        return currentThread.name.ifBlank { currentThread.threadId().toString() }
+    }
 }
