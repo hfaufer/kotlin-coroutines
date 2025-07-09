@@ -36,7 +36,7 @@ class Behnke() {
 
     suspend fun compute(workerCount: Int, n: Long): Double {
         Log.info("Computing series in context $coroutineContext")
-        return withContext(Dispatchers.Default) {
+        return withContext(Dispatchers.Default + CoroutineName("Behnke-Benchmark")) {
             series(workerCount, n)
         }
     }
