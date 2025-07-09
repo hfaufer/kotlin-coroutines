@@ -20,7 +20,9 @@ fun main() {
     val elapsedTime = measureTimeMillis {
         //        val result = Behnke().compute(Dispatchers.Default, 10, 100_000_000_000L)
         val result = runBlocking {
+            //            withTimeout(5.seconds) {
             Behnke().compute(10, 100_000_000_000L)
+            //            }
         }
         Log.info("Result is $result.")
     }
@@ -48,7 +50,9 @@ class Behnke() {
                 val min = (workerId - 1) * n / workerCount + 1
                 val max = workerId * n / workerCount
                 Log.info("Worker $workerId: Computing sum from $min to $max")
-                val localSum = (min..max).sumOf { sqrt(1.0 / it) }
+                val localSum = (min..max)
+                    .also { ensureActive() }
+                    .sumOf { sqrt(1.0 / it) }
                 Log.info("Worker $workerId: Local Sum is $localSum")
                 localSum
             }
