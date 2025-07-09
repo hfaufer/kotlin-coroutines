@@ -2,7 +2,6 @@ package de.hu.kotlin.concurrency
 
 import de.hu.kotlin.coroutines.Log
 import kotlinx.coroutines.*
-import java.util.concurrent.Executors
 import kotlin.time.Duration.Companion.milliseconds
 
 fun main() {
@@ -37,6 +36,3 @@ class CoroutineScopeDemo(dispatcher: CoroutineDispatcher = Dispatchers.Default) 
         scope.cancel()
     }
 }
-
-private val Dispatchers.VT: CoroutineDispatcher
-    get() = Executors.newVirtualThreadPerTaskExecutor().asCoroutineDispatcher()
