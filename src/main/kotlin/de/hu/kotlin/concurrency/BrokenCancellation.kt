@@ -14,6 +14,8 @@ fun main() {
                 try {
                     doWork()
                 } catch (e: IllegalStateException) {
+                    // The bug can be fixed by explicitly checking for CancellationException.
+                    // if (e is CancellationException) throw e
                     println("Oops: ${e::class} - ${e.message}")
                 }
             }
