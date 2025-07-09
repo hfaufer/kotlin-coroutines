@@ -12,7 +12,7 @@ fun main() {
         withTimeoutOrNull(2.seconds) { // Will cancel the coroutine after 2 seconds.
             while (true) {
                 try {
-                    doWork()
+                    doWork1()
                 } catch (e: IllegalStateException) {
                     // The bug can be fixed by explicitly checking for CancellationException.
                     // if (e is CancellationException) throw e
@@ -23,7 +23,7 @@ fun main() {
     }
 }
 
-suspend fun doWork() {
+suspend fun doWork1() {
     delay(500.milliseconds) // Will throw a TimeoutCancellationException if the job is no longer active.
     throw IllegalStateException("Just suppose a precondition is not met!")
 }
