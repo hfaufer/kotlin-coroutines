@@ -2,6 +2,7 @@ package de.hu.kotlin.concurrency
 
 import de.hu.kotlin.coroutines.Log
 import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 import kotlin.math.sqrt
 import kotlin.system.measureTimeMillis
 
@@ -33,14 +34,17 @@ class Behnke() {
             series(workerCount, n)
         }
 
-    suspend fun compute(workerCount: Int, n: Long): Double =
-        withContext(Dispatchers.Default) {
+    suspend fun compute(workerCount: Int, n: Long): Double {
+        Log.info("Computing series in context $coroutineContext")
+        return withContext(Dispatchers.Default) {
             series(workerCount, n)
         }
+    }
 
     private suspend fun CoroutineScope.series(workerCount: Int, n: Long): Double =
         (1..workerCount).map { workerId ->
             async {
+                Log.info("Computing $workerCount in context $coroutineContext")
                 val min = (workerId - 1) * n / workerCount + 1
                 val max = workerId * n / workerCount
                 Log.info("Worker $workerId: Computing sum from $min to $max")
