@@ -11,7 +11,7 @@ import java.util.*
 class CoroutinesTest {
 
     @Test
-    fun stubbingSuspending() {
+    fun stubbingSuspendingInterface() {
         /* Given */
         val m = mock<SomeInterface> {
             onBlocking { suspending() } doReturn 42
@@ -25,7 +25,22 @@ class CoroutinesTest {
     }
 
     @Test
-    fun stubbingSuspending_usingSuspendingFunction() {
+    fun stubbingSuspendingImplementation() {
+        /* Given */
+        val m: SomeImplementation = mock { }
+        m.stub {
+            onBlocking { suspending() } doReturn 137
+        }
+
+        /* When */
+        val result = runBlocking { m.suspending() }
+
+        /* Then */
+        assertEquals(137, result)
+    }
+
+    @Test
+    fun stubbingSuspendingInterface_usingSuspendingFunction() {
         /* Given */
         val m = mock<SomeInterface> {
             onBlocking { suspending() } doReturn runBlocking { SomeClass().result(42) }
@@ -39,7 +54,22 @@ class CoroutinesTest {
     }
 
     @Test
-    fun stubbingSuspending_runBlocking() = runBlocking {
+    fun stubbingSuspendingImplementation_usingSuspendingFunction() {
+        /* Given */
+        val m: SomeImplementation = mock {}
+        m.stub {
+            onBlocking { suspending() } doReturn runBlocking { SomeClass().result(42) }
+        }
+
+        /* When */
+        val result = runBlocking { m.suspending() }
+
+        /* Then */
+        assertEquals(42, result)
+    }
+
+    @Test
+    fun stubbingSuspendingInterface_runBlocking() = runBlocking {
         /* Given */
         val m = mock<SomeInterface> {
             onBlocking { suspending() } doReturn 42
@@ -53,7 +83,7 @@ class CoroutinesTest {
     }
 
     @Test
-    fun stubbingSuspending_wheneverBlocking() {
+    fun stubbingSuspendingInterface_wheneverBlocking() {
         /* Given */
         val m: SomeInterface = mock()
         wheneverBlocking { m.suspending() }
@@ -67,7 +97,7 @@ class CoroutinesTest {
     }
 
     @Test
-    fun stubbingSuspending_doReturn() {
+    fun stubbingSuspendingInterface_doReturn() {
         /* Given */
         val m = spy(SomeClass())
         doReturn(10)
@@ -86,11 +116,11 @@ class CoroutinesTest {
     fun stubbingNonSuspending() {
         /* Given */
         val m = mock<SomeInterface> {
-            onBlocking { nonsuspending() } doReturn 42
+            onBlocking { nonSuspending() } doReturn 42
         }
 
         /* When */
-        val result = m.nonsuspending()
+        val result = m.nonSuspending()
 
         /* Then */
         assertEquals(42, result)
@@ -100,11 +130,11 @@ class CoroutinesTest {
     fun stubbingNonSuspending_runBlocking() = runBlocking {
         /* Given */
         val m = mock<SomeInterface> {
-            onBlocking { nonsuspending() } doReturn 42
+            onBlocking { nonSuspending() } doReturn 42
         }
 
         /* When */
-        val result = m.nonsuspending()
+        val result = m.nonSuspending()
 
         /* Then */
         assertEquals(42, result)
@@ -423,7 +453,22 @@ interface SomeInterface {
 
     suspend fun suspending(): Int
     suspend fun suspendingWithArg(arg: Int): Int
-    fun nonsuspending(): Int
+    fun nonSuspending(): Int
+}
+
+open class SomeImplementation {
+
+    suspend fun suspending(): Int {
+        delay(0)
+        return -1
+    }
+
+    suspend fun suspendingWithArg(arg: Int): Int {
+        delay(0)
+        return -arg
+    }
+
+    fun nonSuspending(): Int = -1
 }
 
 open class SomeClass {
