@@ -31,13 +31,13 @@ class CoroutinesTest {
 
     @Test
     fun `mock should return stubbed override value`() = runBlocking {
-        whenever(interfaceMock.suspending()).thenReturn(1)
+        whenever(interfaceMock.suspending()).doReturn(1)
         assertEquals(1, interfaceMock.suspending())
 
-        whenever(interfaceMock.suspendingWithArg(1)).thenReturn(10)
+        whenever(interfaceMock.suspendingWithArg(1)).doReturn(10)
         assertEquals(10, interfaceMock.suspendingWithArg(1))
 
-        whenever(interfaceMock.suspendingWithArg(2)).thenReturn(20)
+        whenever(interfaceMock.suspendingWithArg(2)).doReturn(20)
         assertEquals(20, interfaceMock.suspendingWithArg(2))
     }
 

@@ -29,13 +29,13 @@ class StubbingTest {
 
     @Test
     fun `mock should return stubbed override value`() {
-        whenever(interfaceMock.method()).thenReturn(1)
+        whenever(interfaceMock.method()).doReturn(1)
         assertEquals(1, interfaceMock.method())
 
-        whenever(interfaceMock.function(1)).thenReturn(10)
+        whenever(interfaceMock.function(1)).doReturn(10)
         assertEquals(10, interfaceMock.function(1))
 
-        whenever(interfaceMock.function(2)).thenReturn(20)
+        whenever(interfaceMock.function(2)).doReturn(20)
         assertEquals(20, interfaceMock.function(2))
     }
 
