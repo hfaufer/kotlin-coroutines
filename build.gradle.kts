@@ -15,8 +15,12 @@ repositories {
 
 dependencies {
     // Use JUnit Jupiter for testing.
-    testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.jupiter.platform.launcher)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    // Also try the Kotlin test library.
+    testImplementation(kotlin("test"))
 
     // The application uses these dependencies.
     implementation(libs.jackson.module.kotlin)
