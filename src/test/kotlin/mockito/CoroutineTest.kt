@@ -462,13 +462,6 @@ open class CoImplementation {
         delay(0)
         return -1
     }
-
-    suspend fun suspendingWithArg(arg: Int): Int {
-        delay(0)
-        return -arg
-    }
-
-    fun nonSuspending(): Int = -1
 }
 
 open class ClassSwitchingCoContext {
