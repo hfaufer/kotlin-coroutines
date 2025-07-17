@@ -3,12 +3,43 @@ package mockito
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.InOrder
 import org.mockito.kotlin.*
 import java.util.*
 
 class CoroutinesTest {
+
+    private lateinit var interfaceMock: CoInterface
+
+    @BeforeEach
+    fun setUp() {
+        interfaceMock = mock {
+            onBlocking { suspending() }.doReturn(-21)
+            onBlocking { suspendingWithArg(1) }.doReturn(-1)
+            onBlocking { suspendingWithArg(2) }.doReturn(-2)
+        }
+    }
+
+    @Test
+    fun `mock should return stubbed value`() = runBlocking {
+        assertEquals(-21, interfaceMock.suspending())
+        assertEquals(-1, interfaceMock.suspendingWithArg(1))
+        assertEquals(-2, interfaceMock.suspendingWithArg(2))
+    }
+
+    @Test
+    fun `mock should return stubbed override value`() = runBlocking {
+        whenever(interfaceMock.suspending()).thenReturn(1)
+        assertEquals(1, interfaceMock.suspending())
+
+        whenever(interfaceMock.suspendingWithArg(1)).thenReturn(10)
+        assertEquals(10, interfaceMock.suspendingWithArg(1))
+
+        whenever(interfaceMock.suspendingWithArg(2)).thenReturn(20)
+        assertEquals(20, interfaceMock.suspendingWithArg(2))
+    }
 
     @Test
     fun stubbingSuspendingInterface() {
