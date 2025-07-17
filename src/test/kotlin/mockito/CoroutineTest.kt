@@ -13,7 +13,7 @@ class CoroutinesTest {
     @Test
     fun stubbingSuspendingInterface() {
         /* Given */
-        val m = mock<SomeInterface> {
+        val m = mock<CoInterface> {
             onBlocking { suspending() } doReturn 42
         }
 
@@ -27,7 +27,7 @@ class CoroutinesTest {
     @Test
     fun stubbingSuspendingImplementation() {
         /* Given */
-        val m: SomeImplementation = mock { }
+        val m: CoImplementation = mock { }
         m.stub {
             onBlocking { suspending() } doReturn 137
         }
@@ -42,8 +42,8 @@ class CoroutinesTest {
     @Test
     fun stubbingSuspendingInterface_usingSuspendingFunction() {
         /* Given */
-        val m = mock<SomeInterface> {
-            onBlocking { suspending() } doReturn runBlocking { SomeClass().result(42) }
+        val m = mock<CoInterface> {
+            onBlocking { suspending() } doReturn runBlocking { ClassSwitchingCoContext().result(42) }
         }
 
         /* When */
@@ -56,9 +56,9 @@ class CoroutinesTest {
     @Test
     fun stubbingSuspendingImplementation_usingSuspendingFunction() {
         /* Given */
-        val m: SomeImplementation = mock {}
+        val m: CoImplementation = mock {}
         m.stub {
-            onBlocking { suspending() } doReturn runBlocking { SomeClass().result(42) }
+            onBlocking { suspending() } doReturn runBlocking { ClassSwitchingCoContext().result(42) }
         }
 
         /* When */
@@ -71,7 +71,7 @@ class CoroutinesTest {
     @Test
     fun stubbingSuspendingInterface_runBlocking() = runBlocking {
         /* Given */
-        val m = mock<SomeInterface> {
+        val m = mock<CoInterface> {
             onBlocking { suspending() } doReturn 42
         }
 
@@ -85,7 +85,7 @@ class CoroutinesTest {
     @Test
     fun stubbingSuspendingInterface_wheneverBlocking() {
         /* Given */
-        val m: SomeInterface = mock()
+        val m: CoInterface = mock()
         wheneverBlocking { m.suspending() }
             .doReturn(42)
 
@@ -99,7 +99,7 @@ class CoroutinesTest {
     @Test
     fun stubbingSuspendingInterface_doReturn() {
         /* Given */
-        val m = spy(SomeClass())
+        val m = spy(ClassSwitchingCoContext())
         doReturn(10)
             .wheneverBlocking(m) {
                 delaying()
@@ -115,7 +115,7 @@ class CoroutinesTest {
     @Test
     fun stubbingNonSuspending() {
         /* Given */
-        val m = mock<SomeInterface> {
+        val m = mock<CoInterface> {
             onBlocking { nonSuspending() } doReturn 42
         }
 
@@ -129,7 +129,7 @@ class CoroutinesTest {
     @Test
     fun stubbingNonSuspending_runBlocking() = runBlocking {
         /* Given */
-        val m = mock<SomeInterface> {
+        val m = mock<CoInterface> {
             onBlocking { nonSuspending() } doReturn 42
         }
 
@@ -143,7 +143,7 @@ class CoroutinesTest {
     @Test
     fun delayingResult() {
         /* Given */
-        val m = SomeClass()
+        val m = ClassSwitchingCoContext()
 
         /* When */
         val result = runBlocking { m.delaying() }
@@ -155,7 +155,7 @@ class CoroutinesTest {
     @Test
     fun delayingResult_runBlocking() = runBlocking {
         /* Given */
-        val m = SomeClass()
+        val m = ClassSwitchingCoContext()
 
         /* When */
         val result = m.delaying()
@@ -167,7 +167,7 @@ class CoroutinesTest {
     @Test
     fun verifySuspendFunctionCalled() {
         /* Given */
-        val m = mock<SomeInterface>()
+        val m = mock<CoInterface>()
 
         /* When */
         runBlocking { m.suspending() }
@@ -178,7 +178,7 @@ class CoroutinesTest {
 
     @Test
     fun verifySuspendFunctionCalled_runBlocking() = runBlocking<Unit> {
-        val m = mock<SomeInterface>()
+        val m = mock<CoInterface>()
 
         m.suspending()
 
@@ -187,7 +187,7 @@ class CoroutinesTest {
 
     @Test
     fun verifySuspendFunctionCalled_verifyBlocking() {
-        val m = mock<SomeInterface>()
+        val m = mock<CoInterface>()
 
         runBlocking { m.suspending() }
 
@@ -196,7 +196,7 @@ class CoroutinesTest {
 
     @Test
     fun verifyAtLeastOnceSuspendFunctionCalled_verifyBlocking() {
-        val m = mock<SomeInterface>()
+        val m = mock<CoInterface>()
 
         runBlocking { m.suspending() }
         runBlocking { m.suspending() }
@@ -206,7 +206,7 @@ class CoroutinesTest {
 
     @Test
     fun verifySuspendMethod() = runBlocking {
-        val testSubject: SomeInterface = mock()
+        val testSubject: CoInterface = mock()
 
         testSubject.suspending()
 
@@ -217,7 +217,7 @@ class CoroutinesTest {
 
     @Test
     fun answerWithSuspendFunction() = runBlocking {
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         whenever(fixture.suspendingWithArg(any())).doSuspendableAnswer {
             withContext(Dispatchers.Default) { it.getArgument<Int>(0) }
@@ -228,7 +228,7 @@ class CoroutinesTest {
 
     @Test
     fun inplaceAnswerWithSuspendFunction() = runBlocking {
-        val fixture: SomeInterface = mock {
+        val fixture: CoInterface = mock {
             onBlocking { suspendingWithArg(any()) } doSuspendableAnswer {
                 withContext(Dispatchers.Default) { it.getArgument<Int>(0) }
             }
@@ -239,7 +239,7 @@ class CoroutinesTest {
 
     @Test
     fun callFromSuspendFunction() = runBlocking {
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         whenever(fixture.suspendingWithArg(any())).doSuspendableAnswer {
             withContext(Dispatchers.Default) { it.getArgument<Int>(0) }
@@ -256,7 +256,7 @@ class CoroutinesTest {
 
     @Test
     fun callFromActor() = runBlocking {
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         whenever(fixture.suspendingWithArg(any())).doSuspendableAnswer {
             withContext(Dispatchers.Default) { it.getArgument<Int>(0) }
@@ -278,7 +278,7 @@ class CoroutinesTest {
 
     @Test
     fun answerWithSuspendFunctionWithoutArgs() = runBlocking {
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         whenever(fixture.suspending()).doSuspendableAnswer {
             withContext(Dispatchers.Default) { 42 }
@@ -289,7 +289,7 @@ class CoroutinesTest {
 
     @Test
     fun answerWithSuspendFunctionWithDestructuredArgs() = runBlocking {
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         whenever(fixture.suspendingWithArg(any())).doSuspendableAnswer { (i: Int) ->
             withContext(Dispatchers.Default) { i }
@@ -300,7 +300,7 @@ class CoroutinesTest {
 
     @Test
     fun willAnswerWithControlledSuspend() = runBlocking {
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         val job = Job()
 
@@ -323,7 +323,7 @@ class CoroutinesTest {
     @Test
     fun inOrderRemainsCompatible() {
         /* Given */
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         /* When */
         val inOrder = inOrder(fixture)
@@ -335,8 +335,8 @@ class CoroutinesTest {
     @Test
     fun inOrderSuspendingCalls() {
         /* Given */
-        val fixtureOne: SomeInterface = mock()
-        val fixtureTwo: SomeInterface = mock()
+        val fixtureOne: CoInterface = mock()
+        val fixtureTwo: CoInterface = mock()
 
         /* When */
         runBlocking {
@@ -353,8 +353,8 @@ class CoroutinesTest {
     @Test
     fun inOrderSuspendingCallsFailure() {
         /* Given */
-        val fixtureOne: SomeInterface = mock()
-        val fixtureTwo: SomeInterface = mock()
+        val fixtureOne: CoInterface = mock()
+        val fixtureTwo: CoInterface = mock()
 
         /* When */
         runBlocking {
@@ -373,8 +373,8 @@ class CoroutinesTest {
     @Test
     fun inOrderBlockSuspendingCalls() {
         /* Given */
-        val fixtureOne: SomeInterface = mock()
-        val fixtureTwo: SomeInterface = mock()
+        val fixtureOne: CoInterface = mock()
+        val fixtureTwo: CoInterface = mock()
 
         /* When */
         runBlocking {
@@ -392,8 +392,8 @@ class CoroutinesTest {
     @Test
     fun inOrderBlockSuspendingCallsFailure() {
         /* Given */
-        val fixtureOne: SomeInterface = mock()
-        val fixtureTwo: SomeInterface = mock()
+        val fixtureOne: CoInterface = mock()
+        val fixtureTwo: CoInterface = mock()
 
         /* When */
         runBlocking {
@@ -413,7 +413,7 @@ class CoroutinesTest {
     @Test
     fun inOrderOnObjectSuspendingCalls() {
         /* Given */
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         /* When */
         runBlocking {
@@ -431,7 +431,7 @@ class CoroutinesTest {
     @Test
     fun inOrderOnObjectSuspendingCallsFailure() {
         /* Given */
-        val fixture: SomeInterface = mock()
+        val fixture: CoInterface = mock()
 
         /* When */
         runBlocking {
@@ -449,14 +449,14 @@ class CoroutinesTest {
     }
 }
 
-interface SomeInterface {
+interface CoInterface {
 
     suspend fun suspending(): Int
     suspend fun suspendingWithArg(arg: Int): Int
     fun nonSuspending(): Int
 }
 
-open class SomeImplementation {
+open class CoImplementation {
 
     suspend fun suspending(): Int {
         delay(0)
@@ -471,7 +471,7 @@ open class SomeImplementation {
     fun nonSuspending(): Int = -1
 }
 
-open class SomeClass {
+open class ClassSwitchingCoContext {
 
     suspend fun result(r: Int) = withContext(Dispatchers.Default) { r }
 
