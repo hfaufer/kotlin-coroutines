@@ -13,7 +13,7 @@ import kotlin.time.Duration.Companion.seconds
  * by structured concurrency. Coroutines launched on the global scope can’t
  * be automatically cancelled and aren’t aware of any life cycle. This means
  * it’s very easy to introduce resource leaks, or to still execute a coroutine
- * who's work is no longer needed.
+ * whose work is no longer needed.
  * One use case for GlobalScope.launch() is to launch a top-level background
  * processes that must stay active for the whole lifetime of an application.
  */
@@ -23,6 +23,8 @@ fun main() {
         delay(1.seconds)
         println(", world!")
     }
-    sleep(Duration.ofSeconds(2))
+    while (job.isActive) {
+        println("Waiting for job to finish...")
+        sleep(Duration.ofMillis(300))
+    }
 }
-
