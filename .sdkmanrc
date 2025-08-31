@@ -1,5 +1,5 @@
 # Enable auto-env through the sdkman_auto_env config
 # Add key=value pairs of SDKs to use below
-gradle=8.14.latest
-java=24.0.latest-librca
-kotlin=2.2.latest
+gradle=8.14.3
+java=24.0.2-librca
+kotlin=2.2.10
