@@ -10,11 +10,6 @@ fun main() {
     println("Result: $result")
 }
 
-private fun <T, R> Result<T>.flatMap(transform: (T) -> Result<R>): Result<R> = fold(
-    onSuccess = { value -> transform(value) },
-    onFailure = { throwable -> Result.failure(throwable) }
-)
-
 private fun plus(s: String, x: Int): Result<Int> = toInteger(s).map { it + x }
 
 private fun times(s: String, x: Int): Result<Int> = toInteger(s).map { it * x }
