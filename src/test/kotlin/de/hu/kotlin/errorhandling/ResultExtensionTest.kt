@@ -67,7 +67,7 @@ class ResultExtensionTest {
         }
 
         @Test
-        fun `alsoResultExceptions should return the receiver`() {
+        fun `alsoResultValues should return the receiver`() {
             val receiver = listOf(intFailure, intSuccess42)
 
             val result = receiver.alsoResultValues { println(it) }
@@ -76,7 +76,7 @@ class ResultExtensionTest {
         }
 
         @Test
-        fun `alsoResultExceptions should call lambda with values of all successes`() {
+        fun `alsoResultValues should call lambda with values of all successes`() {
             val receiver = listOf(intFailure, intSuccess42)
 
             val values = mutableListOf<Int>()
