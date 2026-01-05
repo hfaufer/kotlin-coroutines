@@ -2,4 +2,4 @@
 # Add key=value pairs of SDKs to use below
 gradle=8.14.3
 java=24.0.2-librca
-kotlin=2.2.10
+kotlin=2.3.0
