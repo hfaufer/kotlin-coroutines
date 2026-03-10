@@ -1,7 +1,7 @@
 package de.hu.kotlin.coroutines
 
-import de.hu.java.vthreads.JsonPlaceHolderClient
-import de.hu.java.vthreads.user.User
+import de.hu.java.http.JsonPlaceHolderClient
+import de.hu.java.http.user.User
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

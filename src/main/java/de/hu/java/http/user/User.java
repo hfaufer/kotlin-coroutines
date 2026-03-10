@@ -1,4 +1,4 @@
-package de.hu.java.vthreads.user;
+package de.hu.java.http.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

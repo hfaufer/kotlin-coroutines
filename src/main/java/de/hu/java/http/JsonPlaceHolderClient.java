@@ -1,9 +1,9 @@
-package de.hu.java.vthreads;
+package de.hu.java.http;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.hu.java.vthreads.user.User;
+import de.hu.java.http.user.User;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
