@@ -15,6 +15,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class JsonPlaceHolderClient {
@@ -51,6 +52,7 @@ public class JsonPlaceHolderClient {
 
     private static HttpClient newHttp2Client() {
         return HttpClient.newBuilder()
+                .executor(Executors.newVirtualThreadPerTaskExecutor())
                 .version(HttpClient.Version.HTTP_2)
                 .followRedirects(HttpClient.Redirect.NEVER)
                 .connectTimeout(Duration.ofSeconds(20))
